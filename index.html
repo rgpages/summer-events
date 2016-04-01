@@ -1,23 +1,62 @@
 ---
 layout: default
+script: |
+  <script>
+    var url = 'http://registerguard.com/csp/cms/sites/rg/feeds/json.csp?items=1&subcats=26433409'
+    var json = url + '&callback=?';
+    var hits;
+    var stories;
+    $.getJSON(json, function(data){
+      //response data are now in the result variable
+      // console.log(data);
+      // console.log(data.stories);
+      hits = data.hits;
+      stories = data.stories;
+      $.each( stories, function( i, d ) {
+        //console.log(d[i].headline);
+        // console.log(d.headline);
+        $('#bhn').html('<a href="' + d.server + d.path + '" target="_blank">' + d.headline + '</a>');
+      });
+    });
+    var xml = 'http://go.registerguard.com/entertainment/feeds/picks/';
+    var godata;
+    $.ajax({
+      url: xml,
+      data: godata,
+      dataType: xml,
+      success: function(data){
+        console.log(data);
+      }
+    });
+  </script>
+  
 ---
 
-<div class="home">
-
-  <h1 class="page-heading">Posts</h1>
-
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
-</div>
+<div class="w_col">
+	
+	<h1 class="h1">Summer events</h1>
+	
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et accumsan mi. Proin eu magna orci. Vivamus vehicula orci id vestibulum volutpat.</p>
+	<p>Suspendisse potenti. Nullam non lorem diam. Nullam vehicula augue vitae massa dapibus, sed pretium lorem suscipit. Nullam fermentum pharetra volutpat. Donec nec sodales nulla, in vehicula tortor.</p>
+	
+	<h2 class="sh1">Events</h2>
+	
+	<div id="bhn">loading...</div>
+	
+	<h2 class="sh1">Resources</h2>
+	
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et accumsan mi. Proin eu magna orci. Vivamus vehicula orci id vestibulum volutpat.</p>
+	<p>Suspendisse potenti. Nullam non lorem diam. Nullam vehicula augue vitae massa dapibus, sed pretium lorem suscipit. Nullam fermentum pharetra volutpat. Donec nec sodales nulla, in vehicula tortor.</p>
+	<p>Integer ac lorem sit amet nisl imperdiet gravida. Proin tincidunt ac tellus et maximus.</p>
+	<p>Nulla facilisi. Phasellus vitae ultrices enim. In diam ligula, dignissim vel sodales eget, porta at tortor. Aenean eu ultricies tortor, ut rutrum massa.</p>
+	<p>Cras maximus ipsum eget nunc aliquet blandit. Nam eleifend posuere nisi sit amet tempor. In blandit urna porttitor luctus tincidunt. Donec convallis bibendum enim.</p>
+	
+	<h2 class="sh1">Browse the archive</h2>
+	
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et accumsan mi. Proin eu magna orci. Vivamus vehicula orci id vestibulum volutpat.</p>
+	<p>Suspendisse potenti. Nullam non lorem diam. Nullam vehicula augue vitae massa dapibus, sed pretium lorem suscipit. Nullam fermentum pharetra volutpat. Donec nec sodales nulla, in vehicula tortor.</p>
+	<p>Integer ac lorem sit amet nisl imperdiet gravida. Proin tincidunt ac tellus et maximus.</p>
+	<p>Nulla facilisi. Phasellus vitae ultrices enim. In diam ligula, dignissim vel sodales eget, porta at tortor. Aenean eu ultricies tortor, ut rutrum massa.</p>
+	<p>Cras maximus ipsum eget nunc aliquet blandit. Nam eleifend posuere nisi sit amet tempor. In blandit urna porttitor luctus tincidunt. Donec convallis bibendum enim.</p>
+	
+</div><!-- /.w_col -->
