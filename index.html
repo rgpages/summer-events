@@ -2,11 +2,12 @@
 layout: default
 script: |
   <script>
-    var url = 'http://registerguard.com/csp/cms/sites/rg/feeds/json.csp?items=1&subcats=26433409'
-    var json = url + '&callback=?';
+    // BE HERE NOW 
+    var bhnurl = 'http://registerguard.com/csp/cms/sites/rg/feeds/json.csp?items=1&subcats=26433409'
+    var bhnjson = bhnurl + '&callback=?';
     var hits;
     var stories;
-    $.getJSON(json, function(data){
+    $.getJSON(bhnjson, function(data){
       //response data are now in the result variable
       // console.log(data);
       // console.log(data.stories);
@@ -18,15 +19,61 @@ script: |
         $('#bhn').html('<a href="' + d.server + d.path + '" target="_blank">' + d.headline + '</a>');
       });
     });
-    var xml = 'http://go.registerguard.com/entertainment/feeds/picks/';
+    // GO CALENDAR
+    var gourl = 'http://go.registerguard.com/api/json/';
     var godata;
+    var success;
     $.ajax({
-      url: xml,
-      data: godata,
-      dataType: xml,
-      success: function(data){
-        console.log(data);
+      dataType: "jsonp",
+      jsonp: "callback",
+      jsonpCallback: "widget_data",
+      url: gourl,
+      data: godata
+    }).success(function(godata){
+      var days = godata[0].events;
+      var html = '';
+      $.each(days, function (i, d){
+        //console.log(d.date);
+        var items = d.items;
+        html = html + '<h3 class="sh6">' + d.date + '</h3>';
+        html = html + '<ul>';
+        $.each(items, function(ii, dd){
+          //console.log(" - " + dd.title);
+          html = html + '<li><b>' + dd.category + '</b>: <a href="' + dd.uri + '">' + dd.title + '</a></li>';
+        });
+        html = html + '</ul>';
+      });
+      $('#go').html(html);
+    });
+    // SHUFFLE FUNCTION
+    function shuffle(array) {
+      var m = array.length, t, i;
+      // While there remain elements to shuffle…
+      while (m) {
+        // Pick a remaining element…
+        i = Math.floor(Math.random() * m--);
+        // And swap it with the current element.
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
       }
+      return array;
+    }
+    // TURIN
+    var turinurl = 'http://projects.registerguard.com/turin/json-summer/?subcats=19525878,21188953,19525916,19525960,19525172,19525263,19525262,19525181,19525186,2603694,19525212,19525254,19525221,19525226,19525237,19525255,19525240,27108154,19525241,19525189,27108148,19525242,19525243,19525244,19525268,19525253,19525245,27108147,19525269,19525252,20281419,800,801,191222,802,803,726376,804,806,19525558,26433409,27632499,27632499&items=50';
+    var turinjson = turinurl + '&callback=?';
+    $.getJSON(turinjson, function(data){
+      //response data are now in the result variable
+      var server = 'http://projects.registerguard.com';
+      var html = '';
+      data = shuffle(data);
+      // console.log(data.stories);
+      $.each( data, function( i, d ) {
+        //console.log(d[i].headline);
+        // console.log(d.headline);
+        html = html + '<li><b>' + d.subcategory + '</b>: <a href="' + server + d.link + '" target="_blank">' + d.headline + '</a></li>';
+      });
+      $('#turin').html('<ul>' + html + '</ul>');
     });
   </script>
   
@@ -45,18 +92,19 @@ script: |
 	
 	<h2 class="sh1">Resources</h2>
 	
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et accumsan mi. Proin eu magna orci. Vivamus vehicula orci id vestibulum volutpat.</p>
-	<p>Suspendisse potenti. Nullam non lorem diam. Nullam vehicula augue vitae massa dapibus, sed pretium lorem suscipit. Nullam fermentum pharetra volutpat. Donec nec sodales nulla, in vehicula tortor.</p>
-	<p>Integer ac lorem sit amet nisl imperdiet gravida. Proin tincidunt ac tellus et maximus.</p>
-	<p>Nulla facilisi. Phasellus vitae ultrices enim. In diam ligula, dignissim vel sodales eget, porta at tortor. Aenean eu ultricies tortor, ut rutrum massa.</p>
-	<p>Cras maximus ipsum eget nunc aliquet blandit. Nam eleifend posuere nisi sit amet tempor. In blandit urna porttitor luctus tincidunt. Donec convallis bibendum enim.</p>
+	<ul>
+		
+		<li><a href="http://cloud.registerguard.com/discovery/">Discovery</a></li>
+		<li><a href="http://readerschoice.registerguard.com">Readers' Choice</a></li>
+		
+	</ul>
+  
+  <h3 class="h5">Go Entertainment</h3>
+  
+  <div id="go">loading...</div>
 	
 	<h2 class="sh1">Browse the archive</h2>
 	
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et accumsan mi. Proin eu magna orci. Vivamus vehicula orci id vestibulum volutpat.</p>
-	<p>Suspendisse potenti. Nullam non lorem diam. Nullam vehicula augue vitae massa dapibus, sed pretium lorem suscipit. Nullam fermentum pharetra volutpat. Donec nec sodales nulla, in vehicula tortor.</p>
-	<p>Integer ac lorem sit amet nisl imperdiet gravida. Proin tincidunt ac tellus et maximus.</p>
-	<p>Nulla facilisi. Phasellus vitae ultrices enim. In diam ligula, dignissim vel sodales eget, porta at tortor. Aenean eu ultricies tortor, ut rutrum massa.</p>
-	<p>Cras maximus ipsum eget nunc aliquet blandit. Nam eleifend posuere nisi sit amet tempor. In blandit urna porttitor luctus tincidunt. Donec convallis bibendum enim.</p>
+	<div id="turin">loading...</div>
 	
 </div><!-- /.w_col -->
