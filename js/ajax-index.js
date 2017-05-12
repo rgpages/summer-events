@@ -79,7 +79,7 @@ $.getJSON(turinjson, function(data){
 		//console.log(d[i].headline);
 		// console.log(d.headline);
 		html = html + '<li><b>' + d.subcategory + '</b>: <a href="' + server + d.link + '" target="_blank">' + d.headline + '</a></li>';
-		html = html + '<img src="' + d.image + '">';
+		html = html + '<img src="' + d.image + '" style="max-width:300px;">';
 	});
 	$('#turin').html('<ul>' + html + '</ul>');
 });
